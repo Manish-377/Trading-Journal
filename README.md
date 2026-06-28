@@ -86,11 +86,11 @@ cd api-gateway && npm install && cd ..
 cd frontend && npm install && cd ..
 ```
 
-### 4. Run database migrations
+### 4. Generate Prisma Client & run migrations
 
 ```bash
-cd auth-service && npx prisma migrate dev && cd ..
-cd trade-service && npx prisma migrate dev && cd ..
+cd auth-service && npx prisma generate && npx prisma migrate dev && cd ..
+cd trade-service && npx prisma generate && npx prisma migrate dev && cd ..
 ```
 
 ### 5. Start all services (each in a separate terminal)
