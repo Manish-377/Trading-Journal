@@ -1,0 +1,141 @@
+
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      theme-type: dark,
+      primary: mat.$cyan-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Inter,
+    density: 0,
+  ));
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0b1220;
+  color: #c7e2f7;
+  margin: 0;
+}
+
+html, body { height: 100%; }
+
+// Material overrides for dark theme
+.mat-mdc-table {
+  background: #131d2e !important;
+}
+.mat-mdc-header-row {
+  background: #0b1220 !important;
+}
+.mat-mdc-row:hover {
+  background: #1e2d3d !important;
+}
+.mat-mdc-cell, .mat-mdc-header-cell {
+  color: #c7e2f7 !important;
+  border-bottom-color: #1e2d3d !important;
+}
+.mat-mdc-form-field {
+  --mdc-filled-text-field-container-color: #131d2e;
+  --mdc-filled-text-field-label-text-color: #8899a8;
+  --mdc-filled-text-field-input-text-color: #c7e2f7;
+  --mdc-outlined-text-field-outline-color: #1e2d3d;
+  --mdc-outlined-text-field-hover-outline-color: #5a6472;
+  --mdc-outlined-text-field-focus-outline-color: #0ea5e9;
+  --mdc-outlined-text-field-label-text-color: #8899a8;
+  --mdc-outlined-text-field-hover-label-text-color: #c7e2f7;
+  --mdc-outlined-text-field-focus-label-text-color: #0ea5e9;
+  --mdc-outlined-text-field-input-text-color: #c7e2f7;
+  --mdc-outlined-text-field-input-text-placeholder-color: #5a6472;
+  --mat-form-field-container-text-color: #c7e2f7;
+  --mat-form-field-state-layer-color: #131d2e;
+}
+.mat-mdc-select-value, .mat-mdc-select-arrow {
+  color: #c7e2f7 !important;
+}
+.mat-mdc-card {
+  background: #131d2e !important;
+  border: 1px solid #1e2d3d;
+}
+.mat-mdc-raised-button.mat-primary {
+  background-color: #0ea5e9 !important;
+  color: #fff !important;
+  .mat-icon {
+    color: #fff !important;
+    vertical-align: middle;
+    margin-right: 4px;
+    font-size: 18px;
+    height: 18px;
+    width: 18px;
+  }
+  .mdc-button__label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+}
+.mat-mdc-outlined-button, .mat-mdc-button, [mat-stroked-button] {
+  --mdc-outlined-button-label-text-color: #8899a8;
+  --mdc-outlined-button-outline-color: #3a4a5a;
+  --mdc-text-button-label-text-color: #8899a8;
+  --mat-mdc-button-persistent-ripple-color: #8899a8;
+  color: #8899a8 !important;
+  border-color: #3a4a5a !important;
+  .mdc-button__label {
+    color: #8899a8 !important;
+  }
+}
+.mat-mdc-outlined-button:hover, .mat-mdc-button:hover, [mat-stroked-button]:hover {
+  background: rgba(94, 234, 212, 0.08) !important;
+  color: #c7e2f7 !important;
+  .mdc-button__label {
+    color: #c7e2f7 !important;
+  }
+}
+.mat-mdc-paginator {
+  background: #131d2e !important;
+  color: #c7e2f7 !important;
+}
+
+// Fix datetime-local inputs in dark theme
+input[type="time"] {
+  color-scheme: dark;
+  &::-webkit-calendar-picker-indicator {
+    filter: invert(0.8);
+    cursor: pointer;
+  }
+}
+
+// Material datepicker dark theme
+.mat-datepicker-content {
+  background: #131d2e !important;
+  color: #c7e2f7 !important;
+}
+
+// Dark dialog panel
+.dark-dialog .mat-mdc-dialog-container .mdc-dialog__surface {
+  background: #0b1220 !important;
+  border: 1px solid #1e2d3d;
+  border-radius: 16px;
+}
+.dark-dialog .mat-mdc-dialog-title {
+  color: #c7e2f7 !important;
+}
+.dark-dialog .mat-mdc-dialog-actions {
+  border-top: 1px solid #1e2d3d;
+  padding: 0.75rem 1.5rem;
+}
