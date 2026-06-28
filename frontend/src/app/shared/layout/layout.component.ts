@@ -1,10 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavModule, MatSidenav } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AuthService } from '../../core/services/auth.service';
 import { CandleBgComponent } from '../candle-bg/candle-bg.component';
 
@@ -18,7 +19,7 @@ import { CandleBgComponent } from '../candle-bg/candle-bg.component';
   ],
   template: `
     <mat-sidenav-container class="app-container">
-      <mat-sidenav mode="side" opened class="sidebar">
+      <mat-sidenav #sidenav [mode]="isMobile() ? 'over' : 'side'" [opened]="!isMobile()" class="sidebar">
         <div class="logo">
           <mat-icon class="logo-icon">candlestick_chart</mat-icon>
           <span class="logo-text">Trading Journal</span>
@@ -27,23 +28,23 @@ import { CandleBgComponent } from '../candle-bg/candle-bg.component';
         <mat-divider></mat-divider>
 
         <nav class="nav-links">
-          <a routerLink="/dashboard" routerLinkActive="active" class="nav-item">
+          <a routerLink="/dashboard" routerLinkActive="active" class="nav-item" (click)="closeMobile()">
             <mat-icon>dashboard</mat-icon>
             <span>Dashboard</span>
           </a>
-          <a routerLink="/trades" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item">
+          <a routerLink="/trades" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" class="nav-item" (click)="closeMobile()">
             <mat-icon>show_chart</mat-icon>
             <span>Trades</span>
           </a>
-          <a routerLink="/trades/new" routerLinkActive="active" class="nav-item">
+          <a routerLink="/trades/new" routerLinkActive="active" class="nav-item" (click)="closeMobile()">
             <mat-icon>add_circle</mat-icon>
             <span>New Trade</span>
           </a>
-          <a routerLink="/strategies" routerLinkActive="active" class="nav-item">
+          <a routerLink="/strategies" routerLinkActive="active" class="nav-item" (click)="closeMobile()">
             <mat-icon>psychology</mat-icon>
             <span>Strategies</span>
           </a>
-          <a routerLink="/mistakes" routerLinkActive="active" class="nav-item">
+          <a routerLink="/mistakes" routerLinkActive="active" class="nav-item" (click)="closeMobile()">
             <mat-icon>analytics</mat-icon>
             <span>Analysis</span>
           </a>
@@ -68,6 +69,11 @@ import { CandleBgComponent } from '../candle-bg/candle-bg.component';
       </mat-sidenav>
 
       <mat-sidenav-content class="content">
+        @if (isMobile()) {
+          <button mat-icon-button class="menu-toggle" (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+          </button>
+        }
         <app-candle-bg [opacity]="0.07"></app-candle-bg>
         <router-outlet />
       </mat-sidenav-content>
@@ -141,10 +147,35 @@ import { CandleBgComponent } from '../candle-bg/candle-bg.component';
       position: relative;
       overflow-x: hidden;
     }
+
+    .menu-toggle {
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      z-index: 100;
+      color: #c7e2f7;
+      background: rgba(10, 15, 26, 0.85);
+      border: 1px solid #1e2d3d;
+    }
   `],
 })
 export class LayoutComponent {
-  constructor(public authService: AuthService) {}
+  @ViewChild('sidenav') sidenav!: MatSidenav;
+  isMobile = signal(false);
+
+  constructor(
+    public authService: AuthService,
+    private breakpointObserver: BreakpointObserver,
+  ) {
+    this.breakpointObserver.observe([Breakpoints.Handset, '(max-width: 768px)'])
+      .subscribe(result => this.isMobile.set(result.matches));
+  }
+
+  closeMobile() {
+    if (this.isMobile()) {
+      this.sidenav.close();
+    }
+  }
 
   getInitials(name: string): string {
     return name
