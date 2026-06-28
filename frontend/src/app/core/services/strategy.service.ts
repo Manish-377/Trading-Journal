@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Strategy, CreateStrategyPayload, UpdateStrategyPayload } from '../models/strategy.model';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable({ providedIn: 'root' })
 export class StrategyService {
-  private readonly API_URL = '/api/strategies';
+  private readonly API_URL = `${environment.apiUrl}/api/strategies`;
 
   constructor(private http: HttpClient) {}
 

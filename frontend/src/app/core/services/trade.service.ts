@@ -3,9 +3,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Trade, TradeListResponse, CreateTradePayload } from '../models/trade.model';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable({ providedIn: 'root' })
 export class TradeService {
-  private readonly API_URL = '/api/trades';
+  private readonly API_URL = `${environment.apiUrl}/api/trades`;
 
   constructor(private http: HttpClient) {}
 

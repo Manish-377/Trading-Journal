@@ -5,55 +5,60 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, { bodyParser: false });
+  
+  const allowedOrigins = process.env.CORS_ORIGIN || 'http://localhost:4200';
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: allowedOrigins.split(','),
     credentials: true,
   });
 
+  const AUTH_URL = process.env.AUTH_SERVICE_URL || 'http://localhost:3001';
+  const TRADE_URL = process.env.TRADE_SERVICE_URL || 'http://localhost:3002';
+  const ANALYTICS_URL = process.env.ANALYTICS_SERVICE_URL || 'http://localhost:3003';
+
   const expressApp = app.getHttpAdapter().getInstance();
 
-  // Express strips the mount path, so /api/auth/login → req.url = /login
-  // Target includes /auth so it becomes http://localhost:3001/auth/login
   expressApp.use('/api/auth', createProxyMiddleware({
-    target: 'http://localhost:3001/auth',
+    target: `${AUTH_URL}/auth`,
     changeOrigin: true,
   }));
 
   expressApp.use('/api/trades', createProxyMiddleware({
-    target: 'http://localhost:3002/trades',
+    target: `${TRADE_URL}/trades`,
     changeOrigin: true,
   }));
 
   expressApp.use('/api/strategies', createProxyMiddleware({
-    target: 'http://localhost:3002/strategies',
+    target: `${TRADE_URL}/strategies`,
     changeOrigin: true,
   }));
 
   expressApp.use('/api/mistakes', createProxyMiddleware({
-    target: 'http://localhost:3002/mistakes',
+    target: `${TRADE_URL}/mistakes`,
     changeOrigin: true,
   }));
 
   expressApp.use('/api/rules', createProxyMiddleware({
-    target: 'http://localhost:3002/rules',
+    target: `${TRADE_URL}/rules`,
     changeOrigin: true,
   }));
 
   expressApp.use('/api/analytics', createProxyMiddleware({
-    target: 'http://localhost:3003/analytics',
+    target: `${ANALYTICS_URL}/analytics`,
     changeOrigin: true,
   }));
 
   expressApp.use('/api/dashboard', createProxyMiddleware({
-    target: 'http://localhost:3003/dashboard',
+    target: `${ANALYTICS_URL}/dashboard`,
     changeOrigin: true,
   }));
 
   expressApp.use('/api/reports', createProxyMiddleware({
-    target: 'http://localhost:3003/reports',
+    target: `${ANALYTICS_URL}/reports`,
     changeOrigin: true,
   }));
 
-  await app.listen(3000);
+  const port = process.env.PORT || 3000;
+  await app.listen(port, '0.0.0.0');
 }
 bootstrap();

@@ -3,9 +3,11 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Mistake, CreateMistakePayload, UpdateMistakePayload, MistakeStats } from '../models/mistake.model';
 
+import { environment } from '../../../environments/environment';
+
 @Injectable({ providedIn: 'root' })
 export class MistakeService {
-  private readonly API_URL = '/api/mistakes';
+  private readonly API_URL = `${environment.apiUrl}/api/mistakes`;
 
   constructor(private http: HttpClient) {}
 
