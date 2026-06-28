@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class StrategyService {
-  private readonly API_URL = `${environment.apiUrl}/api/strategies`;
+  private readonly API_URL = environment.tradeUrl ? `${environment.tradeUrl}/strategies` : `${environment.apiUrl}/api/strategies`;
 
   constructor(private http: HttpClient) {}
 

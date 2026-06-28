@@ -147,6 +147,25 @@ The `.env.example` files contain working defaults for local development. No chan
 | GET | `/api/dashboard/daily-pnl` | Daily P&L data |
 | GET | `/api/dashboard/symbols` | Per-symbol breakdown |
 
+## Deployment
+
+### Architecture Note
+
+The intended architecture routes all traffic through the **API Gateway** (see diagram above). In production, the gateway handles routing, rate limiting, and provides a single entry point.
+
+However, the current live demo deploys on Railway's free tier which limits resources to 5. Due to this constraint, the demo frontend calls the backend microservices directly (bypassing the gateway). This is a temporary hosting workaround — the codebase fully supports the gateway architecture for local development and paid deployments.
+
+### Live Demo
+
+| Service | URL |
+|---------|-----|
+| Frontend | Vercel (TBD) |
+| Auth Service | Railway |
+| Trade Service | Railway |
+| Analytics Service | Railway |
+| PostgreSQL | Railway |
+| Redis | Railway |
+
 ## License
 
 MIT

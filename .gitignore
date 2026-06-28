@@ -33,3 +33,5 @@ coverage/
 
 # Misc
 test_trades_import.xlsx
+
+trade-service/uploads/

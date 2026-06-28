@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly API_URL = `${environment.apiUrl}/api/auth`;
+  private readonly API_URL = environment.authUrl ? `${environment.authUrl}/auth` : `${environment.apiUrl}/api/auth`;
   private accessToken = signal<string | null>(null);
   private currentUser = signal<User | null>(null);
   private isRefreshing = false;

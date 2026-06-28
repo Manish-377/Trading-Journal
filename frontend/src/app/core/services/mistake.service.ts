@@ -7,7 +7,7 @@ import { environment } from '../../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class MistakeService {
-  private readonly API_URL = `${environment.apiUrl}/api/mistakes`;
+  private readonly API_URL = environment.tradeUrl ? `${environment.tradeUrl}/mistakes` : `${environment.apiUrl}/api/mistakes`;
 
   constructor(private http: HttpClient) {}
 

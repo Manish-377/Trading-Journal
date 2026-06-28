@@ -10,10 +10,15 @@ export class EventPublisherService implements OnModuleInit, OnModuleDestroy {
   constructor(private config: ConfigService) {}
 
   onModuleInit() {
-    this.publisher = new Redis({
-      host: this.config.get('REDIS_HOST', 'localhost'),
-      port: this.config.get('REDIS_PORT', 6379),
-    });
+    const redisUrl = this.config.get<string>('REDIS_URL');
+    if (redisUrl) {
+      this.publisher = new Redis(redisUrl);
+    } else {
+      this.publisher = new Redis({
+        host: this.config.get('REDIS_HOST', 'localhost'),
+        port: this.config.get('REDIS_PORT', 6379),
+      });
+    }
     this.logger.log('Redis publisher connected');
   }
 

@@ -9,6 +9,10 @@ async function bootstrap() {
   const configService = app.get(ConfigService);
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+  app.enableCors({
+    origin: process.env.CORS_ORIGIN || true,
+    credentials: true,
+  });
 
   // Ensure uploads directory exists
   const uploadDir = configService.get<string>('UPLOAD_DIR') || './uploads';
